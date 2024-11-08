@@ -10,9 +10,14 @@ import SwiftUI
 
 @main
 struct ExoticFruitsApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
-}
+    @StateObject private var itemApi = ItemApi()
+       
+       var body: some Scene {
+           WindowGroup {
+               NavigationView {
+                   ListView()
+                       .environmentObject(itemApi)
+               }
+           }
+       }
+   }
