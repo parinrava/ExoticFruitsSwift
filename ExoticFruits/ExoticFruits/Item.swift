@@ -8,11 +8,10 @@
 import Foundation
 import SwiftData
 
-@Model
-final class Item {
-    var timestamp: Date
-    
-    init(timestamp: Date) {
-        self.timestamp = timestamp
-    }
+struct Item: Codable, Identifiable {
+    let id: UUID
+    var name: String
+    var description: String
+    var countries: [String]
+    var imageBase64: String
 }
