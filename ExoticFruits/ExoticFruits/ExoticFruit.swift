@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct ExoticFruit: Identifiable, Decodable {
+struct ExoticFruit: Identifiable, Codable {
     let id: Int
-    let name: String
-    let description: String
-    let countries: [String]
-    let image: String
+    var name: String
+    var description: String
+    var countries: [String]
+    var image: String
 }

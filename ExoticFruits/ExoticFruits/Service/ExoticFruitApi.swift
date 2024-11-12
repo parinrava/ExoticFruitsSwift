@@ -42,4 +42,69 @@ class ExoticFruitApi: ObservableObject {
         
         task.resume()
     }
+    
+    func createFruit(_ fruit: ExoticFruit, completion: @escaping (Bool) -> Void) {
+           guard let url = URL(string: "https://dotneta2v3-fbhwd5bfcffxd3fx.westus-01.azurewebsites.net/api/ExoticFruit/Create") else {
+               print("Invalid URL.")
+               completion(false)
+               return
+           }
+
+           var request = URLRequest(url: url)
+           request.httpMethod = "POST"
+           request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+           do {
+               let jsonData = try JSONEncoder().encode(fruit)
+               request.httpBody = jsonData
+           } catch {
+               print("Error encoding fruit: \(error.localizedDescription)")
+               completion(false)
+               return
+           }
+
+           let task = URLSession.shared.dataTask(with: request) { data, response, error in
+               if let error = error {
+                   print("Error creating data: \(error.localizedDescription)")
+                   completion(false)
+                   return
+               }
+
+               if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
+                   completion(true)
+               } else {
+                   print("Server responded with status code: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
+                   completion(false)
+               }
+           }
+           task.resume()
+       }
+    
+    // Delete function to remove a fruit by id
+    func deleteFruit(id: Int, completion: @escaping (Bool) -> Void) {
+        guard let url = URL(string: "https://dotneta2v3-fbhwd5bfcffxd3fx.westus-01.azurewebsites.net/api/ExoticFruit/Delete/\(id)") else {
+            print("Invalid URL.")
+            completion(false)
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error deleting data: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+
+            if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
+                completion(true)
+            } else {
+                print("Server responded with status code: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
+                completion(false)
+            }
+        }
+        task.resume()
+    }
 }
