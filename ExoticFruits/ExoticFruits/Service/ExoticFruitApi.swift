@@ -107,4 +107,36 @@ class ExoticFruitApi: ObservableObject {
         }
         task.resume()
     }
+    
+    
+    func updateFruit(_ fruit: ExoticFruit, completion: @escaping (Bool) -> ()) {
+        guard let url = URL(string: "https://dotneta2v3-fbhwd5bfcffxd3fx.westus-01.azurewebsites.net/api/ExoticFruit/Update/\(fruit.id)") else {
+            print("Invalid URL")
+            completion(false)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let jsonData = try JSONEncoder().encode(fruit)
+            request.httpBody = jsonData
+        } catch {
+            print("Error encoding fruit: \(error.localizedDescription)")
+            completion(false)
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error updating fruit: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            completion(true)
+        }
+        task.resume()
+    }
 }

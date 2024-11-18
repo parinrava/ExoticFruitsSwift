@@ -1,16 +1,10 @@
-//
-//  ImagePicker.swift
-//  ExoticFruits
-//
-//  Created by Parin Ravanbakhsh on 2024-11-11.
-//
-
 import SwiftUI
 import UIKit
 
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
     @Binding var isPresented: Bool
+    var sourceType: UIImagePickerController.SourceType = .photoLibrary // Default to photo library
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -19,7 +13,8 @@ struct ImagePicker: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
         picker.delegate = context.coordinator
-        picker.sourceType = .photoLibrary
+        picker.sourceType = sourceType
+        picker.allowsEditing = true // Allow users to crop/edit the selected image
         return picker
     }
 
@@ -33,8 +28,10 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
 
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-            if let uiImage = info[.originalImage] as? UIImage {
-                parent.selectedImage = uiImage
+            if let editedImage = info[.editedImage] as? UIImage {
+                parent.selectedImage = editedImage
+            } else if let originalImage = info[.originalImage] as? UIImage {
+                parent.selectedImage = originalImage
             }
             parent.isPresented = false
         }
