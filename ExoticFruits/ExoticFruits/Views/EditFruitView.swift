@@ -96,3 +96,20 @@ struct EditFruitView: View {
         onSave(updatedFruit)
     }
 }
+
+// MARK: - Preview
+struct EditFruitView_Previews: PreviewProvider {
+    static var previews: some View {
+        let sampleFruit = ExoticFruit(
+            id: 1,
+            name: "Mango",
+            description: "A sweet tropical fruit",
+            countries: ["India", "Philippines"],
+            image: "" // Add a base64 image string here if you want to preview with an image
+        )
+        
+        EditFruitView(fruit: sampleFruit) { updatedFruit in
+            print("Updated Fruit: \(updatedFruit)")
+        }
+    }
+}

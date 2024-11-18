@@ -26,12 +26,12 @@ struct ExoticFruitDetailView: View {
 
             Spacer()
             
-            Button(role: .destructive) {
-                viewModel.deleteFruit(id: fruit.id)
-            } label: {
-                Text("Delete Fruit")
-                    .foregroundColor(.red)
-            }
+//            Button(role: .destructive) {
+//                viewModel.deleteFruit(id: fruit.id)
+//            } label: {
+//                Text("Delete Fruit")
+//                    .foregroundColor(.red)
+//            }
             .padding()
         }
         .navigationTitle(fruit.name)

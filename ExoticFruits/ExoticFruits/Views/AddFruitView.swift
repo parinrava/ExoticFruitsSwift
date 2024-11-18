@@ -62,3 +62,9 @@ struct AddFruitView: View {
         }
     }
 }
+
+struct AddFruitView_Previews: PreviewProvider {
+    static var previews: some View {
+        AddFruitView()
+    }
+}
