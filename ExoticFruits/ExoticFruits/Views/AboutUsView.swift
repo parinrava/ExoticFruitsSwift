@@ -55,7 +55,7 @@ struct AboutUsView: View {
                                 .font(.title2)
                                 .fontWeight(.bold)
 
-                            Text("Student Number: 2010")
+                            Text("Student Number: A01344049")
                                 .font(.body)
                                 .foregroundColor(.secondary)
                         }
